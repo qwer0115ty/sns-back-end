@@ -1,6 +1,6 @@
 package com.boot.controller;
 
-import java.util.Map;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.boot.model.oauth2.LoginUser;
+import com.boot.model.user.UserSignupDto;
 import com.boot.model.user.UserSocial;
 import com.boot.service.UserService;
 import com.boot.service.oauth2.AuthService;
@@ -23,12 +24,8 @@ public class SignupController {
 	private AuthService authService;
 	
 	@RequestMapping(value = "/api/user", method = RequestMethod.POST)
-	public @ResponseBody Object signupUser(@RequestBody Map<String, String> param) throws Exception {
-		if (param.get("sub") == null || param.get("name") == null) {
-			throw new Exception();
-		}
-		
-		UserSocial us = userService.insertUser(param.get("sub"), param.get("name"));
+	public @ResponseBody Object signupUser(@RequestBody @Valid UserSignupDto user) throws Exception {
+		UserSocial us = userService.insertUser(user.getSub(), user.getName());
 		LoginUser lu = authService.getLoginUserByUserSeq(us.getUserSeq());
 		lu.setSub(us.getId());
 		
