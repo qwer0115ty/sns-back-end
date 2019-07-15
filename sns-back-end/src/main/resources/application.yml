@@ -1,0 +1,58 @@
+server:
+  port: 8081
+  error:
+    whitelabel:
+      enabled: false
+logging:
+  file: logs/dev_app.log
+  pattern:
+    console: '%d %-5level %logger : %msg%n'
+    file: '%d %-5level [%thread] %logger : %msg%n'
+  level:
+    org.springframework.web: DEBUG
+    guru.springframework.controllers: DEBUG
+    org.hibernate: DEBUG
+hikari:
+  config:
+    jdbc-url: jdbc-url
+    username: username
+    password: password
+    driver-class-name: com.mysql.jdbc.Driver
+google:
+  client:
+    clientId: clientId
+    clientSecret: clientSecret
+    accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+    userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+    clientAuthenticationScheme: form
+    scope:
+    - email
+    - profile
+  resource:
+    userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+security:
+  oauth2:
+    client:
+      client-id: client-id
+      client-secret: client-secret
+      scope:
+        - default
+      authorized-grant-types:
+        - password
+        - refresh_token
+      access-token-validity-seconds: 3600
+      refresh-token-validity-seconds: 7200
+    resource:
+      jwt:
+        key-value: key-value
+aws:
+  s3:
+    region: ap-northeast-2
+    bucketName: bucketName
+    accessKey: accessKey
+    secretKey: secretKey
+spring:
+  http:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB

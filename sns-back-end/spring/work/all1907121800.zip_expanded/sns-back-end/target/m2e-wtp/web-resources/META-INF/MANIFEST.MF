@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: sns-back-end
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: hylee
+Implementation-Vendor-Id: com.boot
+Build-Jdk: 1.8.0_65
+Implementation-URL: https://projects.spring.io/spring-boot/sns-back-en
+ d/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
