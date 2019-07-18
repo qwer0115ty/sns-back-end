@@ -54,5 +54,15 @@ aws:
 spring:
   http:
     multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
+      max-file-size: 20MB
+      max-request-size: 25MB
+  thymeleaf:
+    prefix: classpath:templates/
+    check-template-location: true
+    suffix: .html
+    mode: LEGACYHTML5
+    template-resolver-order: 0
+    cache: false
+  mvc:
+    static-path-pattern: /static/**
+    throw-exception-if-no-handler-found: true

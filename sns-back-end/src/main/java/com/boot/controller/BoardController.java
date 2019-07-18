@@ -52,7 +52,7 @@ public class BoardController {
 			pageNo = page;
 		}
 		
-		return boardService.getBoards(new PageRequest(pageNo - 1, 1), BoardsTarget.ALL);
+		return boardService.getBoards(new PageRequest(pageNo - 1, 3), BoardsTarget.ALL);
 	}
 	
 	@RequestMapping(value = "/api/board/{seq}", method = RequestMethod.DELETE)

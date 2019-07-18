@@ -35,7 +35,7 @@ public class MyController {
 			pageNo = page;
 		}
 		
-		return boardService.getBoards(new PageRequest(pageNo - 1, 1), BoardsTarget.FOLLOW);
+		return boardService.getBoards(new PageRequest(pageNo - 1, 3), BoardsTarget.FOLLOW);
 	}
 	
 	@RequestMapping(value = "/api/my/like/boards", method = RequestMethod.GET)
@@ -46,6 +46,6 @@ public class MyController {
 			pageNo = page;
 		}
 		
-		return boardService.getBoards(new PageRequest(pageNo - 1, 1), BoardsTarget.LIKE);
+		return boardService.getBoards(new PageRequest(pageNo - 1, 3), BoardsTarget.LIKE);
 	}
 }

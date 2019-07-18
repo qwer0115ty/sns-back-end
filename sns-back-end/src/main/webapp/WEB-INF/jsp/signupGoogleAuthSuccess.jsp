@@ -20,7 +20,7 @@
 			let obj = { };
 			obj[input.id] = decodeURIComponent(input.value);
 			
-			window.opener.postMessage({"login_failure": obj}, "http://localhost:8080");
+			window.opener.postMessage({"login_failure": obj}, location.origin);
 			window.close();
 		};
 	</script>

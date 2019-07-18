@@ -27,4 +27,5 @@ public class UserSocial {
 	private String id;
 	@Column(insertable=false)
 	private Boolean isLinked;
+	private String email;
 }

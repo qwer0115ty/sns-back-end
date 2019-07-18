@@ -3,6 +3,8 @@ package com.boot.model.user;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -21,4 +23,7 @@ public class UserSignupDto {
 	@NotNull
 	@Size(min=3, max=20)
 	private String name;
+	@NotNull
+	@Email
+	private String email;
 }

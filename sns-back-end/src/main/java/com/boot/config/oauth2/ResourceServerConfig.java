@@ -49,11 +49,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/user").permitAll()
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/api/**").authenticated()
+			.antMatchers(HttpMethod.POST, "/api/user").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/user/validation/name").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/user/**/**").authenticated()
 			.antMatchers(HttpMethod.GET, "/api/board/**", "/api/boards", "/api/user/**/boards", "/api/user/**").permitAll()
-			.antMatchers("/WEB-INF/jsp/googleAuthSuccess.jsp", "/WEB-INF/jsp/signupGoogleAuthSuccess.jsp").permitAll()
+			.antMatchers("/WEB-INF/jsp/googleAuthSuccess.jsp", "/WEB-INF/jsp/signupGoogleAuthSuccess.jsp",
+					"/static/**", "/templates/**", "/").permitAll()
 			.anyRequest().authenticated().and().formLogin().disable()
 			.addFilterBefore(ssoFilter, BasicAuthenticationFilter.class);
 	}

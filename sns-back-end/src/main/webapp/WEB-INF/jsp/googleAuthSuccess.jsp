@@ -29,7 +29,7 @@
 				}
 			}
 			
-			window.opener.postMessage({"login_success": obj}, "http://localhost:8080");
+			window.opener.postMessage({"login_success": obj}, location.origin);
 			window.close();
 		};
 	</script>

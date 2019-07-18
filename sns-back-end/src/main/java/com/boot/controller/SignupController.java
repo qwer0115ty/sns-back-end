@@ -25,7 +25,7 @@ public class SignupController {
 	
 	@RequestMapping(value = "/api/user", method = RequestMethod.POST)
 	public @ResponseBody Object signupUser(@RequestBody @Valid UserSignupDto user) throws Exception {
-		UserSocial us = userService.insertUser(user.getSub(), user.getName());
+		UserSocial us = userService.insertUser(user.getSub(), user.getName(), user.getEmail());
 		LoginUser lu = authService.getLoginUserByUserSeq(us.getUserSeq());
 		lu.setSub(us.getId());
 		

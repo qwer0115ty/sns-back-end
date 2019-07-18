@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	@Override
-	public UserSocial insertUser(String sub, String name) throws Exception {
+	public UserSocial insertUser(String sub, String name, String email) throws Exception {
 		UserSocial us = null;
 		
 		if (userSocialRepository.findByIdAndIsLinked(sub, true) != null) {
@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
 			us = new UserSocial();
 			us.setId(sub);
 			us.setUserSeq(u.getSeq());
+			us.setEmail(email);
 			userSocialRepository.save(us);
 			
 			UserAuthority ua = new UserAuthority();
