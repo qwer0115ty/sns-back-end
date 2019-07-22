@@ -37,7 +37,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 			e.printStackTrace();
 		}
 		
-		LoginUser lu = socialAuthService.getLoginUserBySub(gu.getSub());
+		LoginUser lu = socialAuthService.getLoginUserBySub(gu);
 		
 		String path = "/WEB-INF/jsp/";
 		if(lu != null) {
