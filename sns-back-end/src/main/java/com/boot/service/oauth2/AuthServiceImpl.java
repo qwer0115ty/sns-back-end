@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -61,11 +63,17 @@ public class AuthServiceImpl implements AuthService {
 		return objectMapper.readValue(details, GoogleUser.class);
 	}
 
+	@Transactional
 	@Override
-	public LoginUser getLoginUserBySub(String sub) {
-		UserSocial us = userSocialRepository.findByIdAndIsLinked(sub, true);
+	public LoginUser getLoginUserBySub(GoogleUser gu) {
+		UserSocial us = userSocialRepository.findByIdAndIsLinked(gu.getSub(), true);
 
 		if (us != null) {
+			if (us.getEmail() == null) {
+				us.setEmail(gu.getEmail());
+				userSocialRepository.save(us);
+			}
+			
 			LoginUser lu = loginUserRepository.findBySeqAndStatus(us.getUserSeq(), true);
 			lu.setAuthorities(getAuthorities(lu.getSeq()));
 			return lu;

@@ -8,7 +8,7 @@ import com.boot.model.oauth2.LoginUser;
 
 public interface AuthService {
 	public GoogleUser getGoogleUserByAuthentication(Authentication authentication) throws Exception;
-	public LoginUser getLoginUserBySub(String sub);
+	public LoginUser getLoginUserBySub(GoogleUser gu);
 	public LoginUser getLoginUserByUserSeq(int userSeq);
 	public OAuth2AccessToken getOAuth2AccessTokenByLoginUser(LoginUser loginUser);
 }
