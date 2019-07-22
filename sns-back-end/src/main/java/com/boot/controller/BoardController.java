@@ -32,7 +32,7 @@ public class BoardController {
 		String content = mRequest.getParameter("data").toString();
 		MultipartFile mf = mRequest.getFile("file");
 		
-		if(content.equals("null") || mf == null) {
+		if(content.equals("null") || mf == null || content.length() > 300) {
 			throw new Exception("invalid");
 		}
 		
@@ -79,7 +79,7 @@ public class BoardController {
 		MultipartFile mf = mRequest.getFile("file");
 		String content = mRequest.getParameter("data").toString();
 		
-		if(content.equals("null")) {
+		if(content.equals("null") || content.length() > 300) {
 			throw new Exception("invalid");
 		}
 		
