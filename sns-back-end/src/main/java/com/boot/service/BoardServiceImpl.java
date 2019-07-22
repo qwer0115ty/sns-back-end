@@ -1,7 +1,6 @@
 package com.boot.service;
 
 import java.io.File;
-import java.util.UUID;
 
 import javax.servlet.ServletContext;
 import javax.transaction.Transactional;
@@ -49,26 +48,10 @@ public class BoardServiceImpl implements BoardService {
 	private BoardRepositorySupport boardRepositorySupport;
 	
 	@Autowired
-	private ServletContext servletContext;
-	
-	@Autowired
 	private ModelMapper modelMapper;
 	
-	private File makeTempFile(MultipartFile mf) throws Exception {
-		String root = servletContext.getRealPath("/");
-		String pathname = root + File.separator + "temp" + File.separator;		
-		String originalFileName =  mf.getOriginalFilename();
-		String fileExt = originalFileName.substring(originalFileName.lastIndexOf("."));
-		String saveFilename = UUID.randomUUID().toString() + fileExt;
-
-		File file = new File(pathname + saveFilename);
-		if(!file.getParentFile().exists()) {
-			file.getParentFile().mkdirs();
-		}
-	    mf.transferTo(file);
-	    
-		return file;
-	}
+	@Autowired
+	private ServletContext servletContext;
 	
 	@Transactional
 	@Override
@@ -78,7 +61,7 @@ public class BoardServiceImpl implements BoardService {
 		b.setContent(content);
 		b = boardRepository.save(b);
 
-		File file = makeTempFile(mf);
+		File file = CustomUtils.makeTempFile(mf, servletContext.getRealPath("/"));
 		file = CustomUtils.makeSquareImage(file);
 		
 		AwsS3File asf = new AwsS3File();
@@ -149,7 +132,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Board updateBoard (Board board, MultipartFile mf) throws Exception {
 		if(mf != null) {
-			File file = makeTempFile(mf);
+			File file = CustomUtils.makeTempFile(mf, servletContext.getRealPath("/"));
 			file = CustomUtils.makeSquareImage(file);
 			
 			AwsS3File asf = new AwsS3File();
@@ -165,6 +148,8 @@ public class BoardServiceImpl implements BoardService {
 			boardFile.setAwsS3Seq(asf.getSeq());
 			boardFileRepository.save(boardFile);
 			awsS3Service.deleteFile(deleteFile);
+			
+			file.delete();
 		}
 		
 		return boardRepository.save(board);

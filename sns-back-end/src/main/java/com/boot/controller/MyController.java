@@ -1,5 +1,7 @@
 package com.boot.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.boot.model.board.BoardsTarget;
 import com.boot.model.oauth2.LoginUser;
@@ -47,5 +51,22 @@ public class MyController {
 		}
 		
 		return boardService.getBoards(new PageRequest(pageNo - 1, 3), BoardsTarget.LIKE);
+	}
+	
+	@RequestMapping(value = "/api/my/profile/img", method = RequestMethod.POST)
+	public @ResponseBody Object setProfileImg(MultipartHttpServletRequest mRequest, HttpSession session,
+			@AuthenticationPrincipal LoginUser lu) throws Exception {
+		MultipartFile mf = mRequest.getFile("file");
+		
+		if(mf == null) {
+			throw new Exception("invalid");
+		}
+		
+		return userService.setUserProfileImg(mf, lu.getSeq());
+	}
+	
+	@RequestMapping(value = "/api/my/profile/img", method = RequestMethod.DELETE)
+	public @ResponseBody Object deleteProfileImg(@AuthenticationPrincipal LoginUser lu) throws Exception {
+		return userService.deleteUserProfileImg(lu.getSeq());
 	}
 }

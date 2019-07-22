@@ -7,8 +7,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class CustomUtils {
 	public static String encodeURIComponent(String s) {
@@ -49,6 +52,21 @@ public class CustomUtils {
 			ImageIO.write(resultImage, "png", file);
 		}
 
+		return file;
+	}
+	
+	public static File makeTempFile(MultipartFile mf, String root) throws Exception {
+		String pathname = root + File.separator + "temp" + File.separator;		
+		String originalFileName =  mf.getOriginalFilename();
+		String fileExt = originalFileName.substring(originalFileName.lastIndexOf("."));
+		String saveFilename = UUID.randomUUID().toString() + fileExt;
+
+		File file = new File(pathname + saveFilename);
+		if(!file.getParentFile().exists()) {
+			file.getParentFile().mkdirs();
+		}
+	    mf.transferTo(file);
+	    
 		return file;
 	}
 }
