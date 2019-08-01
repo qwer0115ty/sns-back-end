@@ -47,11 +47,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 			request.setAttribute("access_token", accessToken.getValue());
 			request.setAttribute("refresh_token", accessToken.getRefreshToken());
 			
-			lu.setUserAuthorities(lu.getUserAuthorities());
-			lu.setAuthorities(null);
-			String ju = gson.toJson(lu);
-			request.setAttribute("user", CustomUtils.encodeURIComponent(ju));
-			
 			path += "googleAuthSuccess.jsp";
 		} else {
 			request.setAttribute("gu", CustomUtils.encodeURIComponent(gson.toJson(gu)));

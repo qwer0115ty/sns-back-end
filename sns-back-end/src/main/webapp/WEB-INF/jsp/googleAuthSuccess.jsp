@@ -13,7 +13,6 @@
 	<body>
 		<input type="hidden" id="access_token" value="${access_token}">
 		<input type="hidden" id="refresh_token" value="${refresh_token}">
-		<input type="hidden" id="user" value="${user}">
 	</body>
 	
 	<script type="text/javascript">
