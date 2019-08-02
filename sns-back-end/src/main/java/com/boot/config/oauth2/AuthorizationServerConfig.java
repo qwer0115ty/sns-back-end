@@ -22,6 +22,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import com.boot.model.oauth2.LoginUser;
 import com.boot.service.oauth2.ClientDetailsServiceImpl;
+import com.boot.service.oauth2.UserDetailsServiceImpl;
 
 @Configuration
 @EnableAuthorizationServer
@@ -32,9 +33,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
 	private ClientDetailsServiceImpl clientDetailsService;
 	
+	@Autowired
+	private UserDetailsServiceImpl userDetailService;
+	
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-		endpoints.tokenStore(tokenStore()).tokenEnhancer(tokenEnhancerChain());
+		endpoints.tokenStore(tokenStore()).tokenEnhancer(tokenEnhancerChain()).userDetailsService(userDetailService);
 	}
 		
 	@Override

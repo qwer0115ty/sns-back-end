@@ -53,6 +53,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 			.antMatchers(HttpMethod.GET, "/api/**").authenticated()
 			.antMatchers(HttpMethod.POST, "/api/user").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/user/validation/name").permitAll()
+			.antMatchers(HttpMethod.POST, "/api/user/**/token/refresh").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/user/**/**").authenticated()
 			.antMatchers(HttpMethod.GET, "/api/board/**", "/api/boards", "/api/user/**/boards", "/api/user/**").permitAll()
 			.antMatchers("/WEB-INF/jsp/googleAuthSuccess.jsp", "/WEB-INF/jsp/signupGoogleAuthSuccess.jsp",

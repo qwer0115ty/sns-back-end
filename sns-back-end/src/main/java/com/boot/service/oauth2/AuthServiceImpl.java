@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,9 @@ import com.boot.jpa.user.UserSocialRepository;
 import com.boot.model.oauth2.Authority;
 import com.boot.model.oauth2.GoogleUser;
 import com.boot.model.oauth2.LoginUser;
+import com.boot.model.oauth2.RefreshTokenRespDto;
 import com.boot.model.user.UserSocial;
+import com.boot.service.HttpClientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
@@ -35,6 +38,9 @@ import com.google.gson.Gson;
 public class AuthServiceImpl implements AuthService {
 	@Autowired
 	private AuthorizationServerTokenServices authTokenServices;
+	
+	@Autowired
+	private HttpClientService httpClientService;
 	
 	@Autowired
 	private LoginUserRepository loginUserRepository;
@@ -51,6 +57,9 @@ public class AuthServiceImpl implements AuthService {
 	@Autowired
 	private CustomClientDetail client;
 
+	@Autowired
+	private HttpServletRequest httpServletRequest;
+	
 	private Gson gson = new Gson();
 	
 	private ObjectMapper objectMapper = new ObjectMapper();
@@ -122,5 +131,25 @@ public class AuthServiceImpl implements AuthService {
 		OAuth2AccessToken token = authTokenServices.createAccessToken(oAuth2Authentication);
 		
 		return token;
+	}
+	
+	@Override
+	public RefreshTokenRespDto getRefreshToken(String token) throws Exception {
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put("grant_type", "refresh_token");
+		paramMap.put("scope", "default");
+		paramMap.put("refresh_token", token);
+
+		RefreshTokenRespDto a = httpClientService.sendPostRequest(paramMap, getOAuthReqUrl("/oauth/token"), RefreshTokenRespDto.class);
+		System.out.println(a);
+		return a;
+	}
+	
+	private String getOAuthReqUrl (String uri) {
+		String protocol = "http://";
+		String reqUrl = httpServletRequest.getRequestURL().toString();
+		String reqUri = httpServletRequest.getRequestURI();
+		String domain = reqUrl.substring(protocol.length(), reqUrl.indexOf(reqUri));
+		return protocol + client.getClientId() + ":" + client.getClientSecret() + "@" + domain + uri;
 	}
 }

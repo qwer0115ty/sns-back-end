@@ -40,8 +40,8 @@ security:
       authorized-grant-types:
         - password
         - refresh_token
-      access-token-validity-seconds: 3600
-      refresh-token-validity-seconds: 7200
+      access-token-validity-seconds: 1860
+      refresh-token-validity-seconds: 1870
     resource:
       jwt:
         key-value: key-value
